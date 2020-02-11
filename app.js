@@ -10,7 +10,16 @@ var apiRouter = require('./routes/api')
 // var usersRouter = require('./routes/api/users');
 // var articlesRouter = require('./routes/api/articles')
 
-mongoose.connect(process.env.name,{
+// mongoose.connect(process.env.name,{
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true,
+// },(err)=>{
+//   console.log("connected",err?false:true)
+// })
+
+// connecting through mlab
+
+mongoose.connect("mongodb+srv://ayush1:hello@conduit-lwqik.gcp.mongodb.net/test?retryWrites=true&w=majority",{
   useNewUrlParser: true,
   useUnifiedTopology: true,
 },(err)=>{

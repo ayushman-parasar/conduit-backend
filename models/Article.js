@@ -19,7 +19,7 @@ var articleSchema = new Schema({
     comments:[{
         type:Schema.Types.ObjectId,
         ref:'Comment'
-    }]  ,
+    }],
     authorId:{
         type:Schema.Types.ObjectId,
         ref:"User"

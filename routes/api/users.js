@@ -23,8 +23,10 @@ router.post('/login', async (req, res)=>{
         var result = await user.verifyPassword(password)
         if(!result) res.status(500).send("wrong password")
         var token = await auth.generateJWT(user)
-        console.log("user-token",token)
-        res.send("success")
+        user.token = token
+        // res.send("success")
+        user.save()
+        res.json(token)
     }catch(error){
         console.log("err",error)
     }

@@ -12,21 +12,34 @@ var User = require('../../models/User')
 // });
 
 //Showing all article --incomplete had to work with query parameters
-router.get('/',async (req,res)=>{
-   try {
-       if(req.query){
-           const query = req.query
+router.get('/',(req,res)=>{
+
+    //    if(req.query){
+    //        const query = req.query
+    //        if(query.tag){
+    //            Article.find({taglist:query.tag},(err,article)=>{
+    //                if(err) return next(err)
+    //                res.send(article)
+    //            })
+    //        }else if(query.author){
+    //             User.findOne({username:query.author})
+    //             .populate("articlesCreated")
+    //             .exec((err,data)=>{
+    //                 if(err){
+    //                     console.log("query-tag-err",err)
+    //                 }
+    //                 res.send(data.articlesCreated)
+    //             })
+    //        }else{
+    //            Article.find({},(err,articles)=>{
+    //                if(err) return next(err)
+    //                res.send(articles)
+    //            })
+    //        }
         //    var articlelist = await Article.find({})
-        console.log()
-       }
-       
-       res.json(articlelist)
-      
-       
-   } catch (error) {
-       console.log("no articles found")
-   }
+
 })
+// router.get()
 
 //Showing single article
 // router.get('/:slug', async(req, res)=>{
@@ -45,7 +58,9 @@ router.get('/',async (req,res)=>{
 //     //     res.send(article)
 //     // })
 // })
+router.get('/',async (req,res)=>{
 
+})
 
 //posting an article
 router.post('/',auth.verifyToken,async(req, res)=>{
