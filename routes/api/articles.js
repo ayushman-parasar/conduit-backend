@@ -11,7 +11,7 @@ var User = require('../../models/User')
 //   res.render('index', { title: 'Express' });
 // });
 
-//Showing all article --incomplete had to work with query parameters
+//Showing all article --incomplete had to work with author query parameters
 router.get('/', (req,res)=>{
    try {
        if(req.query){
@@ -49,22 +49,22 @@ router.get('/', (req,res)=>{
 })
 
 //Showing single article
-// router.get('/:slug', async(req, res)=>{
-//     try {
-//         console.log("trying to find",req.params.slug)
-//         var toFind = req.params.slug 
-//         var singleArticle = await Article.findOne({slug:toFind})
-//         res.json(singleArticle)
-//     } catch (error) {
-//         console.log("No article found")
-//     }
-//     // Article.findOne({slug: toFind},(err,article)=>{
-//     //     if(err){
-//     //         console.log("No article found")
-//     //     }
-//     //     res.send(article)
-//     // })
-// })
+router.get('/:slug', async(req, res)=>{
+    try {
+        console.log("trying to find",req.params.slug)
+        var toFind = req.params.slug 
+        var singleArticle = await Article.findOne({slug:toFind})
+        res.json(singleArticle)
+    } catch (error) {
+        console.log("No article found")
+    }
+    // Article.findOne({slug: toFind},(err,article)=>{
+    //     if(err){
+    //         console.log("No article found")
+    //     }
+    //     res.send(article)
+    // })
+})
 
 
 //posting an article
@@ -126,7 +126,8 @@ router.post('/:slug/comments',auth.verifyToken, async(req, res)=>{
         var commentCreated = await Comment.create(req.body);
         console.log("commentCreated",commentCreated)
         var commentedArticle = await Article.findOneAndUpdate({slug: req.params.slug},{$push:{comments: commentCreated.id }})
-        console.log("commentedArticle",commentedArticle)
+        // await commentedArticle.save()
+        // console.log("commentedArticle",commentedArticle)
         res.json({commentedArticle}) //its updating in the mongo but not showing
     } catch (error) {
         console.log(error); 

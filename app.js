@@ -19,7 +19,7 @@ var apiRouter = require('./routes/api')
 
 // connecting through mlab
 
-mongoose.connect("mongodb+srv://ayush1:hello@conduit-lwqik.gcp.mongodb.net/test?retryWrites=true&w=majority",{
+mongoose.connect(process.env.name,{
   useNewUrlParser: true,
   useUnifiedTopology: true,
 },(err)=>{
