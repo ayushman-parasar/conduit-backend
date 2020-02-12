@@ -32,6 +32,7 @@ router.put('/user',auth.verifyToken, async(req, res)=>{
       }
       foundUser.username = req.body.username
       await foundUser.save()
+      res.json(foundUser)
       console.log(foundUser)
   } catch (error) {
       console.log('updated user err',error)
