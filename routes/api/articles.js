@@ -48,23 +48,6 @@ router.get('/', (req,res)=>{
    }
 })
 
-//Showing single article
-router.get('/:slug', async(req, res)=>{
-    try {
-        console.log("trying to find",req.params.slug)
-        var toFind = req.params.slug 
-        var singleArticle = await Article.findOne({slug:toFind})
-        res.json(singleArticle)
-    } catch (error) {
-        console.log("No article found")
-    }
-    // Article.findOne({slug: toFind},(err,article)=>{
-    //     if(err){
-    //         console.log("No article found")
-    //     }
-    //     res.send(article)
-    // })
-})
 
 
 //posting an article
@@ -72,7 +55,7 @@ router.post('/',auth.verifyToken,async(req, res)=>{
     try {
         var {email} = req.user
         var title = req.body.title
-        // var slug  = slugit(title)
+        var slug  = slugit(title)
         var taglistmodified = req.body.taglist.split(',')
         req.body.taglist = taglistmodified
          //taglist is an array of indivitual strings
@@ -201,40 +184,63 @@ router.delete("/:slug/favourite",auth.verifyToken, async(req, res)=>{
 })
 
 // feed
-// router.get('/feed',auth.verifyToken,async (req, res, next)=>{
-//     try {
-//         console.log("test feed")
-//         var {email} = req.user
-//         var curUser =  await User.findOne({email:email})
-//         let followedArticles = await Article.find({
-//         authorId:{
-//             $in:curUser.followingArr
-//             }
-//         })
-//         console.log(followedArticles)
-//         res.json(followedArticles)
+router.get('/feed',auth.verifyToken, async (req, res, next)=>{
+    try {
+        console.log("test feed")
+        var {email} = req.user
+        var curUser =  await User.findOne({email:email});
+        console.log(curUser.followingArr);
+        let followedArticles = await 
+            Article.find(
+                {
+                    authorId:{
+                        $in: curUser.followingArr
+                    }
+            })
+        console.log(followedArticles);
+        res.json(followedArticles)
 
-//     } catch (error) {
-//         console.log(error)
-//     }
+    } catch (error) {
+        console.log(error)
+    }
     
-// })
+})
 
 
 // nested population
-router.get('/feed',auth.verifyToken,(req, res, next)=>{
+// router.get('/feed',auth.verifyToken,(req, res, next)=>{
     
-    var id =req.user.userID
-    User.findById(id)
-    .populate({
-        path:"followingArr",
-        populate:{
-            path:"articlesCreated"
-        }
-    }).exec((err,data)=>{
-        if(err) return next(err);
-        res.json(data) 
-    })
+//     var id =req.user.userID
+//     User.findById(id)
+//     .populate({
+//         path:"followingArr",
+//         populate:{
+//             path:"articlesCreated"
+//         }
+//     }).exec((err,data)=>{
+//         console.log(err, data);
+//         if(err) return next(err);
+//         res.json(data) 
+//     })
+// })
+
+
+//Showing single article
+router.get('/:slug', async(req, res)=>{
+    try {
+        console.log("trying to find",req.params.slug)
+        var toFind = req.params.slug 
+        var singleArticle = await Article.findOne({slug:toFind})
+        res.json(singleArticle)
+    } catch (error) {
+        console.log("No article found")
+    }
+    // Article.findOne({slug: toFind},(err,article)=>{
+    //     if(err){
+    //         console.log("No article found")
+    //     }
+    //     res.send(article)
+    // })
 })
 
 module.exports = router;

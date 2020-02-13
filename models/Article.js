@@ -22,7 +22,8 @@ var articleSchema = new Schema({
     }],
     authorId:{
         type:Schema.Types.ObjectId,
-        ref:"User"
+        ref:"User",
+        required: true
     },
     taglist:[{
         type:String,
